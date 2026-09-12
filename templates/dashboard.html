@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-section">
+  <div class="container">
+    <div class="page-header">
+      <div>
+        <p class="eyebrow">Overview</p>
+        <h2>Welcome back, {{ user['name'] }}</h2>
+      </div>
+      <a href="{{ url_for('add_expense') }}" class="btn btn-primary">+ Add Expense</a>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card accent-blue">
+        <span>Total spending</span>
+        <strong>{{ format_money(total_spending) }}</strong>
+        <small>Current month</small>
+      </div>
+      <div class="stat-card accent-green">
+        <span>Monthly budget</span>
+        <strong>{{ format_money(monthly_budget) }}</strong>
+        <small>Set by you</small>
+      </div>
+      <div class="stat-card accent-purple">
+        <span>Remaining</span>
+        <strong>{{ format_money(remaining) }}</strong>
+        <small>Available to spend</small>
+      </div>
+      <div class="stat-card accent-red">
+        <span>Expenses</span>
+        <strong>{{ expense_count }}</strong>
+        <small>Recorded this month</small>
+      </div>
+    </div>
+
+    {% if budget_warning %}
+      <div class="warning-box">⚠️ You have exceeded your monthly budget by {{ format_money(remaining * -1) }}.</div>
+    {% endif %}
+
+    <div class="two-column-layout">
+      <div class="panel">
+        <h3>Recent expenses</h3>
+        <div class="list-table">
+          {% for item in recent_expenses %}
+            <div class="list-row">
+              <div>
+                <strong>{{ item['description'] }}</strong>
+                <small>{{ item['category'] }} • {{ item['date'] }}</small>
+              </div>
+              <span>{{ format_money(item['amount']) }}</span>
+            </div>
+          {% else %}
+            <p class="empty-state">No expenses recorded yet.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Spending by category</h3>
+        {% if category_totals %}
+          <div class="category-breakdown">
+            {% for item in category_totals %}
+              <div class="category-row">
+                <span>{{ item['category'] }}</span>
+                <div class="category-bar"><div style="width: {{ ((item['total'] / (category_totals[0]['total'] or 1)) * 100) if category_totals[0]['total'] else 0 }}%"></div></div>
+                <strong>{{ format_money(item['total']) }}</strong>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="empty-state">No category data available.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

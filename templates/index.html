@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero spiderman" style="background-image: url('{{ url_for('static', filename='images/spiderman-anime.jpg') }}')"> 
+  <div class="container hero-grid">
+    <div>
+      <p class="eyebrow">Smart personal finance</p>
+      <h1>Track spending, control budgets, and stay on top of your goals.</h1>
+      <p class="lead">
+        ExpenseWise helps you monitor daily expenses, visualize category trends, and build better budgeting habits over time.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{{ url_for('register') }}">Get started</a>
+        <a class="btn btn-secondary" href="{{ url_for('login') }}">Login</a>
+      </div>
+      <ul class="feature-list">
+        <li>Private, user-specific data</li>
+        <li>Budget alerts and summaries</li>
+        <li>Monthly and category reports</li>
+      </ul>
+    </div>
+    <div class="hero-card">
+      <div class="mini-card">
+        <span>Total spending</span>
+        <strong>₹1,245.00</strong>
+      </div>
+      <div class="mini-card mini-grid">
+        <div>
+          <span>Budget</span>
+          <strong>₹2,000</strong>
+        </div>
+        <div>
+          <span>Remaining</span>
+          <strong>₹755</strong>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-ring"></div>
+        <div class="chart-labels">
+          <span><i class="dot food"></i> Food</span>
+          <span><i class="dot transport"></i> Transport</span>
+          <span><i class="dot shopping"></i> Shopping</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

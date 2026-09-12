@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-section">
+  <div class="container">
+    <div class="page-header">
+      <div>
+        <p class="eyebrow">Reports</p>
+        <h2>Expense insights</h2>
+      </div>
+    </div>
+
+    <div class="stats-grid compact-grid">
+      <div class="stat-card accent-blue">
+        <span>Total recorded</span>
+        <strong>{{ format_money(total_reported) }}</strong>
+      </div>
+      <div class="stat-card accent-green">
+        <span>Top category</span>
+        <strong>{{ largest_category['category'] }}</strong>
+      </div>
+    </div>
+
+    <div class="two-column-layout">
+      <div class="panel">
+        <h3>Monthly spending trend</h3>
+        <canvas id="lineChart"></canvas>
+      </div>
+      <div class="panel">
+        <h3>Spending by category</h3>
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
+
+    <div class="panel full-width-panel">
+      <h3>Category comparison</h3>
+      <canvas id="barChart"></canvas>
+    </div>
+  </div>
+</section>
+
+<script>
+  const monthlyLabels = {{ chart_labels|safe }};
+  const monthlyValues = {{ chart_values|safe }};
+  const categoryLabels = {{ category_labels|safe }};
+  const categoryValues = {{ category_values|safe }};
+
+  new Chart(document.getElementById('lineChart'), {
+    type: 'line',
+    data: {
+      labels: monthlyLabels,
+      datasets: [{
+        label: 'Monthly spending',
+        data: monthlyValues,
+        borderColor: '#5b6cff',
+        backgroundColor: 'rgba(91, 108, 255, 0.15)',
+        tension: 0.35,
+        fill: true
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('pieChart'), {
+    type: 'pie',
+    data: {
+      labels: categoryLabels,
+      datasets: [{
+        data: categoryValues,
+        backgroundColor: ['#5b6cff', '#35c7a5', '#f59e0b', '#ef476f', '#8b5cf6', '#0ea5e9', '#f97316', '#14b8a6']
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels: categoryLabels,
+      datasets: [{
+        label: 'Category totals',
+        data: categoryValues,
+        backgroundColor: '#35c7a5'
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: false }
+  });
+</script>
+{% endblock %}

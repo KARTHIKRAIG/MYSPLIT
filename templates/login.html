@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="container auth-card">
+    <h2>Welcome back</h2>
+    <p>Log in to continue managing your expenses.</p>
+    <form method="POST" class="form-grid">
+      <label>
+        Email
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        Password
+        <input type="password" name="password" required />
+      </label>
+      <button type="submit" class="btn btn-primary full-width">Login</button>
+    </form>
+    <p class="auth-alt">
+      Need an account? <a href="{{ url_for('register') }}">Create one</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

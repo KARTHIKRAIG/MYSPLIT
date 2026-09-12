@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="page-section">
+  <div class="container budget-grid">
+    <div class="panel">
+      <p class="eyebrow">Budget</p>
+      <h2>Monthly budget</h2>
+      <form method="POST" class="form-grid compact-form">
+        <label>
+          Budget amount
+          <input type="number" step="0.01" min="0" name="monthly_budget" value="{{ monthly_budget }}" required />
+        </label>
+        <button type="submit" class="btn btn-primary">Update budget</button>
+      </form>
+    </div>
+
+    <div class="panel metrics-panel">
+      <div class="metric-row">
+        <span>Spent</span>
+        <strong>{{ format_money(total_spending) }}</strong>
+      </div>
+      <div class="metric-row">
+        <span>Remaining</span>
+        <strong>{{ format_money(remaining) }}</strong>
+      </div>
+      <div class="metric-row">
+        <span>Status</span>
+        <strong {% if budget_warning %}class="danger-text"{% endif %}>{{ 'Budget exceeded' if budget_warning else 'On track' }}</strong>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
